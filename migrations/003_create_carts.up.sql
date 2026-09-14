@@ -1,0 +1,10 @@
+CREATE TABLE carts (
+    id BIGSERIAL PRIMARY KEY,
+
+    user_id BIGINT NOT NULL UNIQUE
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
