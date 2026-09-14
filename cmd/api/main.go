@@ -1,19 +1,17 @@
-package main 
+package main
 
 import "fmt"
 
-
-
 func main() {
-    number := make(chan string , 2)
+	number := make(chan string, 2)
 
-    go func() {
-        number <- "farhan"
+	go func() {
+		number <- "farhan"
 		number <- "erfan"
-    }()
+	}()
 
-    value := <- number
-	value2:= <- number
+	value := <-number
+	value2 := <-number
 
-    fmt.Println(value , value2 )
+	fmt.Println(value, value2)
 }

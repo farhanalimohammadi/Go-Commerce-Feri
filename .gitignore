@@ -1,0 +1,25 @@
+# Binaries
+/bin/
+/dist/
+
+# Environment
+.env
+.env.*
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Coverage
+coverage.out
+coverage.html
+
+# Temporary files
+tmp/
+
+# Go
+*.test
+
