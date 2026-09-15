@@ -11,7 +11,7 @@ type Config struct {
 
 func Load() (Config , error) {
 
-	databaseURL = os.Getenv("DATABASE_URL")
+	databaseURL := os.Getenv("DATABASE_URL")
 	if databaseURL == "" {
 		return Config{} , fmt.Errorf("DATABASE_URL is requierd")
 	}

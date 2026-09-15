@@ -1,23 +1,37 @@
 package main
 
 import (
-	"fmt"
-	// "context"
-	// "log"
-	// "os"
+	"context"
+	"log"
 
+	"github.com/farhanalimohammadi/Go-Commerce-Feri/internal/config"
+	"github.com/farhanalimohammadi/Go-Commerce-Feri/internal/database"
 )
 
 func main() {
-	number := make(chan string, 2)
 
-	go func() {
-		number <- "farhan"
-		number <- "erfan"
-	}()
+	cfg , err := config.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	value := <-number
-	value2 := <-number
+	db , err := database.Open(context.Background() , cfg.DatabaseURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
 
-	fmt.Println(value, value2)
+	var version string
+
+	err = db.QueryRowContext(
+		context.Background(),
+		"SELECT version()",
+	).Scan(&version)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println(version)
+
+	log.Println("database connection established")
 }

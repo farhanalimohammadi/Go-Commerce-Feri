@@ -2,18 +2,16 @@ package database
 
 import (
 	"context"
-	"database/aql"
+	"database/sql"
 	"time"
 
-	"github.com/jackc/pgx/v5/stdlib"
-	"golang.org/x/tools/go/analysis/passes/defers"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
-func Open(ctx context.Context , dsn string) (*sql.DB , error) {
-
-	db, err = sql.Open("pgx" , dsn)
+func Open(ctx context.Context, dsn string) (*sql.DB, error) {
+	db, err := sql.Open("pgx", dsn)
 	if err != nil {
-		return  nil , err
+		return nil, err
 	}
 
 	db.SetMaxOpenConns(20)
@@ -21,13 +19,13 @@ func Open(ctx context.Context , dsn string) (*sql.DB , error) {
 	db.SetConnMaxLifetime(30 * time.Minute)
 	db.SetConnMaxIdleTime(5 * time.Minute)
 
-	ctx , cancel = context.WithTimeout(10*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
-	if err != nil {
+	if err := db.PingContext(ctx); err != nil {
 		db.Close()
-		return nil , err
+		return nil, err
 	}
 
-	return db , nil
+	return db, nil
 }
